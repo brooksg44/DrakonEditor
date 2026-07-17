@@ -1978,21 +1978,23 @@ proc merge_trees { gdb node case_to_root item_to_tree select_to_vertex } {
 			} else {
 				lappend result $current
 			}
-		} elseif { $current == "break" } {
-			lappend result $current		
+		} elseif { $current == "break" || $current == "continue" } {
+			lappend result $current
 		} elseif { [ lindex $current 0 ] == "if" } {
 
 			set cond_item [ lindex $current 1 ]
 			set then_node [ lindex $current 3 ]
 			set else_node [ lindex $current 2 ]
-			
+
 			set then [ merge_trees $gdb $then_node $case_to_root $item_to_tree $select_to_vertex]
 			set else [ merge_trees $gdb $else_node $case_to_root $item_to_tree $select_to_vertex]
-			
+
 			set new_if [ list "if" $cond_item $else $then ]
-			
+
 			lappend result $new_if
-			
+
+		} elseif { [ lindex $current 0 ] == "loop" } {
+			lappend result [ merge_trees $gdb $current $case_to_root $item_to_tree $select_to_vertex ]
 		} else {
 			error "unexpected: $current"
 		}

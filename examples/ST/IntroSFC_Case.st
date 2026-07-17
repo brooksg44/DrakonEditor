@@ -41,20 +41,30 @@ END_VAR
     // item 5
     delayTimer(IN := (step = 12),
         PT := T#15S);
-    // item 60001
-    IF step = 1 THEN
-        // item 31
-        Q8 := FALSE;
-        // item 32
-        IF I0 THEN
-            // item 33
-            step := 2;
-        ELSE
-            ;
-        END_IF;
-    ELSE
-        // item 60002
-        IF step = 2 THEN
+    CASE step OF
+        1 :
+            // item 31
+            Q8 := FALSE;
+            // item 32
+            IF I0 THEN
+                // item 33
+                step := 2;
+            ELSE
+                ;
+            END_IF;
+            // item 99
+            Q0 := (step = 2);
+            Q1 := (step = 3);
+            Q2 := (step = 5);
+            Q3 := (step = 4);
+            Q4 := (step = 99) AND NOT doneA;
+            Q5 := (step = 99) AND doneA;
+            Q6 := (step = 99) AND NOT doneB;
+            Q7 := (step = 99) AND doneB;
+            Q9 := (step = 99) AND doneC;
+            Q10 := (step = 12);
+        
+        2 :
             // item 39
             IF I1 THEN
                 // item 40
@@ -68,101 +78,148 @@ END_VAR
                     ;
                 END_IF;
             END_IF;
-        ELSE
-            // item 60003
-            IF step = 3 THEN
-                // item 49
-                IF I3 THEN
-                    // item 50
-                    step := 4;
-                ELSE
-                    ;
-                END_IF;
+            // item 99
+            Q0 := (step = 2);
+            Q1 := (step = 3);
+            Q2 := (step = 5);
+            Q3 := (step = 4);
+            Q4 := (step = 99) AND NOT doneA;
+            Q5 := (step = 99) AND doneA;
+            Q6 := (step = 99) AND NOT doneB;
+            Q7 := (step = 99) AND doneB;
+            Q9 := (step = 99) AND doneC;
+            Q10 := (step = 12);
+        
+        3 :
+            // item 49
+            IF I3 THEN
+                // item 50
+                step := 4;
             ELSE
-                // item 60004
-                IF step = 4 THEN
-                    // item 63
-                    IF I5 THEN
-                        // item 64
-                        step := 99;
-                        doneA := FALSE;
-                        doneB := FALSE;
-                        doneC := FALSE;
-                    ELSE
-                        ;
-                    END_IF;
-                ELSE
-                    // item 60005
-                    IF step = 5 THEN
-                        // item 56
-                        IF I4 THEN
-                            // item 57
-                            step := 4;
-                        ELSE
-                            ;
-                        END_IF;
-                    ELSE
-                        // item 60006
-                        IF step = 99 THEN
-                            // item 70
-                            IF doneA AND doneB AND doneC AND I9 THEN
-                                // item 71
-                                step := 12;
-                            ELSE
-                                ;
-                            END_IF;
-                            // item 74
-                            IF NOT doneC THEN
-                                // item 75
-                                Q8 := TRUE;
-                            ELSE
-                                ;
-                            END_IF;
-                            // item 78
-                            IF NOT doneA AND I6 THEN
-                                // item 79
-                                doneA := TRUE;
-                            ELSE
-                                ;
-                            END_IF;
-                            // item 82
-                            IF NOT doneB AND I7 THEN
-                                // item 83
-                                doneB := TRUE;
-                            ELSE
-                                ;
-                            END_IF;
-                            // item 86
-                            IF NOT doneC AND I8 THEN
-                                // item 87
-                                doneC := TRUE;
-                            ELSE
-                                ;
-                            END_IF;
-                        ELSE
-                            // item 93
-                            IF delayTimer.Q THEN
-                                // item 94
-                                step := 1;
-                            ELSE
-                                ;
-                            END_IF;
-                        END_IF;
-                    END_IF;
-                END_IF;
+                ;
             END_IF;
-        END_IF;
-    END_IF;
-    // item 99
-    Q0 := (step = 2);
-    Q1 := (step = 3);
-    Q2 := (step = 5);
-    Q3 := (step = 4);
-    Q4 := (step = 99) AND NOT doneA;
-    Q5 := (step = 99) AND doneA;
-    Q6 := (step = 99) AND NOT doneB;
-    Q7 := (step = 99) AND doneB;
-    Q9 := (step = 99) AND doneC;
-    Q10 := (step = 12);
+            // item 99
+            Q0 := (step = 2);
+            Q1 := (step = 3);
+            Q2 := (step = 5);
+            Q3 := (step = 4);
+            Q4 := (step = 99) AND NOT doneA;
+            Q5 := (step = 99) AND doneA;
+            Q6 := (step = 99) AND NOT doneB;
+            Q7 := (step = 99) AND doneB;
+            Q9 := (step = 99) AND doneC;
+            Q10 := (step = 12);
+        
+        4 :
+            // item 63
+            IF I5 THEN
+                // item 64
+                step := 99;
+                doneA := FALSE;
+                doneB := FALSE;
+                doneC := FALSE;
+            ELSE
+                ;
+            END_IF;
+            // item 99
+            Q0 := (step = 2);
+            Q1 := (step = 3);
+            Q2 := (step = 5);
+            Q3 := (step = 4);
+            Q4 := (step = 99) AND NOT doneA;
+            Q5 := (step = 99) AND doneA;
+            Q6 := (step = 99) AND NOT doneB;
+            Q7 := (step = 99) AND doneB;
+            Q9 := (step = 99) AND doneC;
+            Q10 := (step = 12);
+        
+        5 :
+            // item 56
+            IF I4 THEN
+                // item 57
+                step := 4;
+            ELSE
+                ;
+            END_IF;
+            // item 99
+            Q0 := (step = 2);
+            Q1 := (step = 3);
+            Q2 := (step = 5);
+            Q3 := (step = 4);
+            Q4 := (step = 99) AND NOT doneA;
+            Q5 := (step = 99) AND doneA;
+            Q6 := (step = 99) AND NOT doneB;
+            Q7 := (step = 99) AND doneB;
+            Q9 := (step = 99) AND doneC;
+            Q10 := (step = 12);
+        
+        99 :
+            // item 70
+            IF doneA AND doneB AND doneC AND I9 THEN
+                // item 71
+                step := 12;
+            ELSE
+                ;
+            END_IF;
+            // item 74
+            IF NOT doneC THEN
+                // item 75
+                Q8 := TRUE;
+            ELSE
+                ;
+            END_IF;
+            // item 78
+            IF NOT doneA AND I6 THEN
+                // item 79
+                doneA := TRUE;
+            ELSE
+                ;
+            END_IF;
+            // item 82
+            IF NOT doneB AND I7 THEN
+                // item 83
+                doneB := TRUE;
+            ELSE
+                ;
+            END_IF;
+            // item 86
+            IF NOT doneC AND I8 THEN
+                // item 87
+                doneC := TRUE;
+            ELSE
+                ;
+            END_IF;
+            // item 99
+            Q0 := (step = 2);
+            Q1 := (step = 3);
+            Q2 := (step = 5);
+            Q3 := (step = 4);
+            Q4 := (step = 99) AND NOT doneA;
+            Q5 := (step = 99) AND doneA;
+            Q6 := (step = 99) AND NOT doneB;
+            Q7 := (step = 99) AND doneB;
+            Q9 := (step = 99) AND doneC;
+            Q10 := (step = 12);
+        
+       ELSE
+            // item 93
+            IF delayTimer.Q THEN
+                // item 94
+                step := 1;
+            ELSE
+                ;
+            END_IF;
+            // item 99
+            Q0 := (step = 2);
+            Q1 := (step = 3);
+            Q2 := (step = 5);
+            Q3 := (step = 4);
+            Q4 := (step = 99) AND NOT doneA;
+            Q5 := (step = 99) AND doneA;
+            Q6 := (step = 99) AND NOT doneB;
+            Q7 := (step = 99) AND doneB;
+            Q9 := (step = 99) AND doneC;
+            Q10 := (step = 12);
+    END_CASE;
 END_PROGRAM
 

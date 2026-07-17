@@ -361,14 +361,25 @@ proc generate { db gdb filename } {
 	foreach diagram_id $diagrams {
 		if { [ mwc::is_drakon $diagram_id ] } {
 			rewire_for_loops $gdb $diagram_id
-			gen::fix_graph_for_diagram $gdb $callbacks 1 $diagram_id
+			# Rewire loops here because fix_graph_for_diagram_to skips
+			# them; the "_to" variant keeps select/case vertices intact
+			# so they come out as CASE ... OF instead of an IF chain.
+			set loop_starts [ $gdb eval {
+				select vertex_id
+				from vertices
+				where type = 'loopstart'
+					and diagram_id = :diagram_id } ]
+			foreach loop_start $loop_starts {
+				gen::p.rewire_loop $gdb $loop_start $callbacks 1
+			}
+			gen::fix_graph_for_diagram_to $gdb $callbacks 1 $diagram_id
 		}
 	}
 
 	set sections { header footer }
 	unpack [ gen::scan_file_description $db $sections ] header footer
 
-	set functions [ gen::generate_functions $db $gdb $callbacks 1 ]
+	set functions [ gen::generate_functions_core $db $gdb $callbacks 1 1 ]
 
 	if { [ graph::errors_occured ] } { return }
 
